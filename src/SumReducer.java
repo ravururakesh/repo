@@ -30,15 +30,33 @@ public class SumReducer extends Reducer<Text, Text, Text, Text> {
 		/*
 		 * For each value in the set of values passed to us by the mapper:
 		 */
-		
+		Collections.sort(values);
 		String reduced = "";
+		boolean valuechange=false;
+		int count=0;
+		Text previous=values(0);
 		for (Text value : values) {
 		  
 		  /*
 		   * Add the value to the word count counter for this key.
 		   */
-			reduced = reduced + " " +value.toString();
+			if(previous!=value)
+			{
+				count++;
+				//valuechange=(previous!=value);
+				previous=value;
+			}
+			else
+			{
+				
+				reduced = reduced + " " +previous.toString()+ " " +count.toString();
+				count=1;
+				previous=value;
+			}
+			
 		}
+
+		reduced = reduced + " " +previous.toString()+ " " +count.toString();
 		System.out.println(key.toString());
 		System.out.println(reduced);
 		/*
